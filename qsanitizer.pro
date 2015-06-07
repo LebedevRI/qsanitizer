@@ -11,12 +11,15 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qsanitizer
 TEMPLATE = app
 
-
 SOURCES += main.cc\
         mainwindow.cc \
-    leaklistmodel.cc
+    leaklistmodel.cc \
+    leakitem.cc \
+    stackitem.cc 
 
 HEADERS  += mainwindow.h \
-    leaklistmodel.h
+    leaklistmodel.h \
+    leakitem.h \
+    stackitem.h 
 
 FORMS    += mainwindow.ui
