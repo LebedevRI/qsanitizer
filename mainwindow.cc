@@ -47,6 +47,15 @@ void MainWindow::on_action_Open_log_triggered()
         QTextStream in(&file);
         QString longstring(in.readAll());
         QStringList strings = longstring.split("\n\n");
+
+        QStringListIterator stringIterator(strings);
+        while (stringIterator.hasNext()) {
+            QString str(stringIterator.next());
+            if (!str.startsWith("Direct leak of")
+                && !str.startsWith("Indirect leak of"))
+                strings.removeOne(str);
+        }
+
         ui->listWidget->insertItems(0, strings);
         file.close();
     }
