@@ -45,7 +45,9 @@ void MainWindow::on_action_Open_log_triggered()
             return;
         }
         QTextStream in(&file);
-        ui->textBrowser->setText(in.readAll());
+        QString longstring(in.readAll());
+        QStringList strings = longstring.split("\n\n");
+        ui->listWidget->insertItems(0, strings);
         file.close();
     }
 }
