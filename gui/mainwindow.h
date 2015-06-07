@@ -22,8 +22,6 @@
 #include <QMainWindow>
 #include <QStringListModel>
 
-#include "leaklistmodel.h"
-
 namespace Ui
 {
 class MainWindow;
@@ -34,16 +32,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    void open_log(const QString &logFile);
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private slots:
-    void on_action_Open_log_triggered();
+    void openLog(const QString &logFile);
 
 private:
     Ui::MainWindow *ui;
-    LeakListModel *model;
+    QStringListModel *model;
 };
 
 #endif // MAINWINDOW_H

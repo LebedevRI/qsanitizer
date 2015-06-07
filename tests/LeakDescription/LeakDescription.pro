@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-06-08T16:20:50
+# Project created by QtCreator 2015-06-08T21:59:09
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_leakitem
+TARGET = tst_leakdescription
 CONFIG   += console
 CONFIG   -= app_bundle
 
@@ -17,7 +17,7 @@ TEMPLATE = app
 CONFIG   += c++11
 CONFIG   += testcase
 
-SOURCES += tst_leakitem.cc
+SOURCES += tst_leakdescription.cc
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../libqsanitizer/release/ -lqsanitizer -Wl,-rpath=$$OUT_PWD/../../libqsanitizer/release/
@@ -30,5 +30,5 @@ DEPENDPATH += $$PWD/../../libqsanitizer
 INCLUDEPATH += $$PWD/../LeakDescription
 DEPENDPATH += $$PWD/../LeakDescription
 
-INCLUDEPATH += $$PWD/../StackItem
-DEPENDPATH += $$PWD/../StackItem
+HEADERS += \
+	tst_leakdescription.h

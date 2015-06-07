@@ -16,26 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LEAKITEM_H
-#define LEAKITEM_H
+#ifndef TST_STACKITEM
+#define TST_STACKITEM
 
-#include <QList>
+typedef struct {
+    QString data;
+    std::size_t num;
+    quintptr pointer;
+    QString function;
+    QString sourcefile;
+    std::size_t sourcefileline;
+    QString object;
+    quintptr objectoffset;
+} StackItemTestData;
 
-#include "stackitem.h"
+Q_DECLARE_METATYPE(StackItemTestData)
 
-class LeakItem
-{
-public:
-    LeakItem(const QString &string);
-    bool getLeakType();
-    ulong getLeakSize();
-    ulong getLeakCount();
-
-private:
-    bool directLeak; // true - Direct leak; false - Indirect leak
-    ulong leakSize;  // bytes leaked
-    ulong leakCount; // objects leaked
-    QList<StackItem *> leakAllocationStack;
-};
-
-#endif // LEAKITEM_H
+#endif // TST_STACKITEM

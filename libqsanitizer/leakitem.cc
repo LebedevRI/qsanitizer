@@ -16,6 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
+#include <QtGlobal>
+#include <QString>
+#include <QStringList>
+
+#include "leakitem.h"
 #include "stackitem.h"
 
-StackItem::StackItem() {}
+LeakItem::LeakItem(const QString &string)
+{
+    QStringList substrings = string.split("\n");
+
+    description = LeakDescription(substrings.first());
+    substrings.removeFirst();
+
+    for (const auto &d : substrings) {
+        this->allocationStack.append(StackItem(d));
+    }
+}
+
+LeakItem::~LeakItem() {}
+
+const LeakDescription &LeakItem::getLeakDescription()
+{
+    return this->description;
+}
+
+const QList<StackItem> &LeakItem::getAllocationStack()
+{
+    return this->allocationStack;
+};

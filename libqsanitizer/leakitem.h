@@ -16,26 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef LEAKITEM_H
+#define LEAKITEM_H
+
+#include <QtGlobal>
 #include <QString>
-#include <QStringList>
 
-#include "leakitem.h"
+#include "leakdescription.h"
+#include "stackitem.h"
 
-LeakItem::LeakItem(const QString &string)
+class LeakItem
 {
-    QStringList substrings = string.split(" ");
+public:
+    LeakItem(const QString &string);
+    ~LeakItem();
 
-    if (substrings.at(0) == QString("Direct"))
-        this->directLeak = true;
-    else if (substrings.at(0) == QString("Indirect"))
-        this->directLeak = false;
+    const LeakDescription &getLeakDescription();
+    const QList<StackItem> &getAllocationStack();
 
-    this->leakSize = substrings.at(3).toULong();
-    this->leakCount = substrings.at(6).toULong();
-}
+private:
+    LeakDescription description;
+    QList<StackItem> allocationStack;
+};
 
-bool LeakItem::getLeakType() { return this->directLeak; }
-
-std::size_t LeakItem::getLeakSize() { return this->leakSize; }
-
-std::size_t LeakItem::getLeakCount() { return this->leakCount; }
+#endif // LEAKITEM_H

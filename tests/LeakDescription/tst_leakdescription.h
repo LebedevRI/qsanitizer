@@ -16,33 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QApplication>
-#include <QCommandLineParser>
-#include <QFileInfo>
+#ifndef TST_LEAKDESCRIPTION
+#define TST_LEAKDESCRIPTION
 
-#include "mainwindow.h"
+typedef struct {
+    QString data;
+    bool directLeak;
+    std::size_t leakSize;
+    std::size_t leakCount;
+} LeakDescriptionTestData;
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
+Q_DECLARE_METATYPE(LeakDescriptionTestData)
 
-    QCommandLineParser parser;
-    parser.addPositionalArgument(
-        "log", QCoreApplication::translate("main", "Log file to parse."));
-    parser.process(a);
-
-    const QStringList args = parser.positionalArguments();
-    // source is args.at(0), destination is args.at(1)
-
-    MainWindow w;
-    w.show();
-
-    if (!args.empty()) {
-        QFileInfo logFile(args.at(0));
-        if (logFile.exists() && logFile.isFile()) {
-            w.open_log(args.at(0));
-        }
-    }
-
-    return a.exec();
-}
+#endif // TST_LEAKDESCRIPTION

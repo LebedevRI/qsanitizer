@@ -16,26 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STACKITEM_H
-#define STACKITEM_H
+#include <QApplication>
+#include <QCommandLineParser>
+#include <QFileInfo>
 
-#include <cstddef>
-#include <QString>
+#include "mainwindow.h"
 
-class StackItem
+int main(int argc, char *argv[])
 {
-public:
-    StackItem();
+    QApplication a(argc, argv);
 
-private:
-    std::size_t num;
-    void *pointer;
-    QString *function;
-    QString *sourcefile;
-    std::size_t *sourcefileline;
-    QString *object;
-    void *objectoffset; // if symbol was not symbolised into
-                        // sourcefile,sourcefileline
-};
+    QCommandLineParser parser;
+    parser.addPositionalArgument(
+        "log", QCoreApplication::translate("main", "Log file to parse."));
+    parser.process(a);
 
-#endif // STACKITEM_H
+    const QStringList args = parser.positionalArguments();
+
+    MainWindow w;
+    w.show();
+
+    if (!args.empty()) {
+        QFileInfo logFile(args.at(0));
+        if (logFile.exists() && logFile.isFile() && logFile.isReadable()) {
+            w.openLog(args.at(0));
+        }
+    }
+
+    return a.exec();
+}

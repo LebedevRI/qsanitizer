@@ -16,18 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QFileDialog>
 #include <QFile>
-#include <QMessageBox>
 #include <QTextStream>
+#include <QMessageBox>
 
-#include "leaklistmodel.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-      model(new LeakListModel(this))
+      model(new QStringListModel(this))
 {
     ui->setupUi(this);
     ui->listView->setModel(model);
@@ -35,13 +33,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::open_log(const QString &logFile)
+void MainWindow::openLog(const QString &logFile)
 {
     QFile file(logFile);
     if (!file.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
         return;
     }
+
     QTextStream in(&file);
     QString longstring(in.readAll());
     QStringList strings = longstring.split("\n\n");
@@ -54,23 +53,7 @@ void MainWindow::open_log(const QString &logFile)
             strings.removeOne(str);
     }
 
-    LeakListModel *oldmodel = model;
-
-    model = new LeakListModel(strings, this);
-    ui->listView->setModel(model);
-
-    delete oldmodel;
+    model->setStringList(strings);
 
     file.close();
-}
-
-void MainWindow::on_action_Open_log_triggered()
-{
-    QString fileName
-        = QFileDialog::getOpenFileName(this, tr("Open Log"), QString(),
-                                       tr("Text Files (*.txt);;All Files (*)"));
-
-    if (!fileName.isEmpty()) {
-        this->open_log(fileName);
-    }
 }

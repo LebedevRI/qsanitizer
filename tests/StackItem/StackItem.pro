@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-06-08T16:20:50
+# Project created by QtCreator 2015-06-08T17:33:08
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_leakitem
+TARGET = tst_stackitem
 CONFIG   += console
 CONFIG   -= app_bundle
 
@@ -17,7 +17,7 @@ TEMPLATE = app
 CONFIG   += c++11
 CONFIG   += testcase
 
-SOURCES += tst_leakitem.cc
+SOURCES += tst_stackitem.cc
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../libqsanitizer/release/ -lqsanitizer -Wl,-rpath=$$OUT_PWD/../../libqsanitizer/release/
@@ -27,8 +27,5 @@ else:unix: LIBS += -L$$OUT_PWD/../../libqsanitizer/ -lqsanitizer -Wl,-rpath=$$OU
 INCLUDEPATH += $$PWD/../../libqsanitizer
 DEPENDPATH += $$PWD/../../libqsanitizer
 
-INCLUDEPATH += $$PWD/../LeakDescription
-DEPENDPATH += $$PWD/../LeakDescription
-
-INCLUDEPATH += $$PWD/../StackItem
-DEPENDPATH += $$PWD/../StackItem
+HEADERS += \
+    tst_stackitem.h
