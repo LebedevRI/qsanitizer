@@ -25,9 +25,11 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow),
+      model(new QStringListModel(this))
 {
     ui->setupUi(this);
+    ui->listView->setModel(model);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -51,7 +53,7 @@ void MainWindow::open_log(const QString &logFile)
             strings.removeOne(str);
     }
 
-    ui->listWidget->insertItems(0, strings);
+    model->setStringList(strings);
     file.close();
 }
 

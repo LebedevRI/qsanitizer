@@ -20,6 +20,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStringListModel>
 
 namespace Ui
 {
@@ -40,6 +41,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QStringListModel *model;
 };
 
 #endif // MAINWINDOW_H
