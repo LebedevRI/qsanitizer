@@ -22,6 +22,8 @@
 #include <QMainWindow>
 #include <QStringListModel>
 
+#include "leaklistmodel.h"
+
 namespace Ui
 {
 class MainWindow;
@@ -41,7 +43,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QStringListModel *model;
+    LeakListModel *model;
 };
 
 #endif // MAINWINDOW_H

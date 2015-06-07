@@ -21,12 +21,13 @@
 #include <QMessageBox>
 #include <QTextStream>
 
+#include "leaklistmodel.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-      model(new QStringListModel(this))
+      model(new LeakListModel(this))
 {
     ui->setupUi(this);
     ui->listView->setModel(model);
@@ -53,7 +54,13 @@ void MainWindow::open_log(const QString &logFile)
             strings.removeOne(str);
     }
 
-    model->setStringList(strings);
+    LeakListModel *oldmodel = model;
+
+    model = new LeakListModel(strings, this);
+    ui->listView->setModel(model);
+
+    delete oldmodel;
+
     file.close();
 }
 

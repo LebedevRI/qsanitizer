@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cc\
-        mainwindow.cc
+        mainwindow.cc \
+    leaklistmodel.cc
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    leaklistmodel.h
 
 FORMS    += mainwindow.ui
