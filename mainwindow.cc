@@ -16,6 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
+#include <QTextStream>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -26,3 +31,21 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() { delete ui; }
+
+void MainWindow::on_action_Open_log_triggered()
+{
+    QString fileName
+        = QFileDialog::getOpenFileName(this, tr("Open Log"), QString(),
+                                       tr("Text Files (*.txt);;All Files (*)"));
+
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+            return;
+        }
+        QTextStream in(&file);
+        ui->textBrowser->setText(in.readAll());
+        file.close();
+    }
+}
