@@ -31,6 +31,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    void open_log(const QString &logFile);
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 

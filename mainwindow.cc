@@ -32,6 +32,29 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
+void MainWindow::open_log(const QString &logFile)
+{
+    QFile file(logFile);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+        return;
+    }
+    QTextStream in(&file);
+    QString longstring(in.readAll());
+    QStringList strings = longstring.split("\n\n");
+
+    QStringListIterator stringIterator(strings);
+    while (stringIterator.hasNext()) {
+        QString str(stringIterator.next());
+        if (!str.startsWith("Direct leak of")
+            && !str.startsWith("Indirect leak of"))
+            strings.removeOne(str);
+    }
+
+    ui->listWidget->insertItems(0, strings);
+    file.close();
+}
+
 void MainWindow::on_action_Open_log_triggered()
 {
     QString fileName
@@ -39,24 +62,6 @@ void MainWindow::on_action_Open_log_triggered()
                                        tr("Text Files (*.txt);;All Files (*)"));
 
     if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
-            return;
-        }
-        QTextStream in(&file);
-        QString longstring(in.readAll());
-        QStringList strings = longstring.split("\n\n");
-
-        QStringListIterator stringIterator(strings);
-        while (stringIterator.hasNext()) {
-            QString str(stringIterator.next());
-            if (!str.startsWith("Direct leak of")
-                && !str.startsWith("Indirect leak of"))
-                strings.removeOne(str);
-        }
-
-        ui->listWidget->insertItems(0, strings);
-        file.close();
+        this->open_log(fileName);
     }
 }
