@@ -16,38 +16,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include <QAbstractListModel>
+#include <QList>
 
-#include <QMainWindow>
-#include <QStringListModel>
-
-#include "qsanitizer.h"
 #include "leaklistmodel.h"
+#include "leakitem.h"
 
-namespace Ui
+LeakListModel::LeakListModel(QObject *parent)
+    : QAbstractListModel(parent), leakList()
 {
-class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+LeakListModel::LeakListModel(const QList<LeakItem> &leaks, QObject *parent)
+    : QAbstractListModel(parent), leakList(leaks)
 {
-    Q_OBJECT
+}
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+LeakListModel::~LeakListModel() {}
 
-    void openLog(const QString &logFile);
+int LeakListModel::rowCount(const QModelIndex &parent) const
+{
+    return leakList.count();
+}
 
-private slots:
-    void on_action_Open_Log_triggered();
-    void on_action_Quit_triggered();
+QVariant LeakListModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
 
-private:
-    Ui::MainWindow *ui;
-    QSanitizer *sanitizer;
-    LeakListModel *model;
-};
+    if (index.row() >= leakList.size())
+        return QVariant();
 
-#endif // MAINWINDOW_H
+    if (role == Qt::DisplayRole)
+        return leakList.at(index.row()).getString();
+    else
+        return QVariant();
+}

@@ -19,13 +19,24 @@
 #ifndef QSANITIZER_H
 #define QSANITIZER_H
 
+#include <QString>
+#include <QList>
+
 #include "libqsanitizer_global.h"
+#include "leakitem.h"
 
 class LIBQSANITIZERSHARED_EXPORT QSanitizer
 {
 
 public:
     QSanitizer();
+    QSanitizer(const QString &logFile);
+
+    const QList<LeakItem> &getLeaks() const;
+
+private:
+    QString logFileName;
+    QList<LeakItem> leaks;
 };
 
 #endif // QSANITIZER_H

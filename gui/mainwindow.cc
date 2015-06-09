@@ -19,19 +19,27 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "qsanitizer.h"
+#include "leaklistmodel.h"
+
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
-      model(new QStringListModel(this))
+    : QMainWindow(parent), ui(new Ui::MainWindow), sanitizer(new QSanitizer()),
+      model(new LeakListModel(this))
 {
     ui->setupUi(this);
     ui->listView->setModel(model);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow()
+{
+    delete this->sanitizer;
+    delete ui;
+}
 
 void MainWindow::openLog(const QString &logFile)
 {
@@ -40,20 +48,28 @@ void MainWindow::openLog(const QString &logFile)
         QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
         return;
     }
-
-    QTextStream in(&file);
-    QString longstring(in.readAll());
-    QStringList strings = longstring.split("\n\n");
-
-    QStringListIterator stringIterator(strings);
-    while (stringIterator.hasNext()) {
-        QString str(stringIterator.next());
-        if (!str.startsWith("Direct leak of")
-            && !str.startsWith("Indirect leak of"))
-            strings.removeOne(str);
-    }
-
-    model->setStringList(strings);
-
     file.close();
+
+    delete this->sanitizer;
+
+    this->sanitizer = new QSanitizer(logFile);
+
+    delete this->model;
+
+    this->model = new LeakListModel(sanitizer->getLeaks(), this);
+
+    ui->listView->setModel(this->model);
 }
+
+void MainWindow::on_action_Open_Log_triggered()
+{
+    QString fileName
+        = QFileDialog::getOpenFileName(this, tr("Open File"), QString(),
+                                       tr("Log Files (*.txt);;All Files (*)"));
+
+    if (!fileName.isEmpty()) {
+        this->openLog(fileName);
+    }
+}
+
+void MainWindow::on_action_Quit_triggered() { this->close(); }

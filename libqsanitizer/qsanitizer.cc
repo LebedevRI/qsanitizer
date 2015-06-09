@@ -16,6 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+#include <QStringList>
+
 #include "qsanitizer.h"
 
 QSanitizer::QSanitizer() {}
+
+QSanitizer::QSanitizer(const QString &logFile)
+{
+    QFile file(logFile);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+
+    QTextStream in(&file);
+    QString longstring(in.readAll());
+    QStringList strings = longstring.split("\n\n");
+
+    for (const auto &s : strings) {
+        if (s.startsWith("Direct leak of")
+            || s.startsWith("Indirect leak of")) {
+            this->leaks.append(LeakItem(s));
+        }
+    }
+
+    file.close();
+}
+
+const QList<LeakItem> &QSanitizer::getLeaks() const { return this->leaks; }

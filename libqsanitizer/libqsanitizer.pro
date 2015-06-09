@@ -16,13 +16,15 @@ DEFINES += LIBQSANITIZER_LIBRARY
 SOURCES += qsanitizer.cc \
     leakitem.cc \
     stackitem.cc \
-    leakdescription.cc
+    leakdescription.cc \
+    leaklistmodel.cc
 
 HEADERS += qsanitizer.h\
 		libqsanitizer_global.h \
     leakitem.h \
     stackitem.h \
-    leakdescription.h
+    leakdescription.h \
+    leaklistmodel.h
 
 unix {
 	target.path = /usr/lib

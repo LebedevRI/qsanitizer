@@ -16,38 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LEAKLISTMODEL_H
+#define LEAKLISTMODEL_H
 
-#include <QMainWindow>
-#include <QStringListModel>
+#include <QAbstractListModel>
+#include <QList>
 
-#include "qsanitizer.h"
-#include "leaklistmodel.h"
+#include "leakitem.h"
 
-namespace Ui
+class LeakListModel : public QAbstractListModel
 {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
-
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    LeakListModel(QObject *parent = 0);
+    LeakListModel(const QList<LeakItem> &leaks, QObject *parent = 0);
+    ~LeakListModel();
 
-    void openLog(const QString &logFile);
-
-private slots:
-    void on_action_Open_Log_triggered();
-    void on_action_Quit_triggered();
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role) const;
 
 private:
-    Ui::MainWindow *ui;
-    QSanitizer *sanitizer;
-    LeakListModel *model;
+    QList<LeakItem> leakList;
 };
 
-#endif // MAINWINDOW_H
+#endif // LEAKLISTMODEL_H

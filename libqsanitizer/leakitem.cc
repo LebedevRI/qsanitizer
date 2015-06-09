@@ -38,6 +38,17 @@ LeakItem::LeakItem(const QString &string)
 
 LeakItem::~LeakItem() {}
 
+QString LeakItem::getString() const
+{
+    QString Leak = this->description.getString() + "\n";
+
+    for (const auto &s : this->allocationStack) {
+        Leak.append("\t" + s.getString() + "\n");
+    }
+
+    return Leak;
+}
+
 const LeakDescription &LeakItem::getLeakDescription() const
 {
     return this->description;
