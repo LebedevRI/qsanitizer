@@ -43,12 +43,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::openLog(const QString &logFile)
 {
-    QFile file(logFile);
-    if (!file.open(QIODevice::ReadOnly)) {
+    QFileInfo fileInfo(logFile);
+    if (!(fileInfo.exists() && fileInfo.isFile() && fileInfo.isReadable())) {
         QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
         return;
     }
-    file.close();
 
     delete this->sanitizer;
 

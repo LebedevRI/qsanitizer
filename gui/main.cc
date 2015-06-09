@@ -37,10 +37,7 @@ int main(int argc, char *argv[])
     w.show();
 
     if (!args.empty()) {
-        QFileInfo logFile(args.at(0));
-        if (logFile.exists() && logFile.isFile() && logFile.isReadable()) {
-            w.openLog(args.at(0));
-        }
+        w.openLog(args.at(0));
     }
 
     return a.exec();
