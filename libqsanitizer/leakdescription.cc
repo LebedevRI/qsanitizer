@@ -39,8 +39,8 @@ LeakDescription::LeakDescription(const QString &string)
 
 LeakDescription::~LeakDescription() {}
 
-bool LeakDescription::getLeakType() { return this->directLeak; }
+bool LeakDescription::getLeakType() const { return this->directLeak; }
 
-std::size_t LeakDescription::getLeakSize() { return this->leakSize; }
+std::size_t LeakDescription::getLeakSize() const { return this->leakSize; }
 
-std::size_t LeakDescription::getLeakCount() { return this->leakCount; }
+std::size_t LeakDescription::getLeakCount() const { return this->leakCount; }

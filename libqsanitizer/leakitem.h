@@ -31,8 +31,8 @@ public:
     LeakItem(const QString &string);
     ~LeakItem();
 
-    const LeakDescription &getLeakDescription();
-    const QList<StackItem> &getAllocationStack();
+    const LeakDescription &getLeakDescription() const;
+    const QList<StackItem> &getAllocationStack() const;
 
 private:
     LeakDescription description;

@@ -29,9 +29,9 @@ public:
     LeakDescription(const QString &string);
     ~LeakDescription();
 
-    bool getLeakType();
-    std::size_t getLeakSize();
-    std::size_t getLeakCount();
+    bool getLeakType() const;
+    std::size_t getLeakSize() const;
+    std::size_t getLeakCount() const;
 
 private:
     bool directLeak;       // true - Direct leak; false - Indirect leak

@@ -38,12 +38,12 @@ LeakItem::LeakItem(const QString &string)
 
 LeakItem::~LeakItem() {}
 
-const LeakDescription &LeakItem::getLeakDescription()
+const LeakDescription &LeakItem::getLeakDescription() const
 {
     return this->description;
 }
 
-const QList<StackItem> &LeakItem::getAllocationStack()
+const QList<StackItem> &LeakItem::getAllocationStack() const
 {
     return this->allocationStack;
 };
