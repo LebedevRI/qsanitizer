@@ -84,7 +84,21 @@ void StackItemTest::testCase1_data()
             .sourcefile = "",
             .sourcefileline = 0ul,
             .object = "/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0",
-            .objectoffset = quintptr(0x38e2c)}};
+            .objectoffset = quintptr(0x38e2c)},
+           {.data = "#2 0x7f035401220a in "
+                    "Oxygen::QtSettings::isAtomSupported(std::string const&) "
+                    "const "
+                    "(/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/theming-engines/"
+                    "liboxygen-gtk.so+0xaa20a)",
+            .num = 2ul,
+            .pointer = quintptr(0x7f035401220a),
+            .function
+            = "Oxygen::QtSettings::isAtomSupported(std::string const&) const",
+            .sourcefile = "",
+            .sourcefileline = 0ul,
+            .object = "/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/theming-engines/"
+                      "liboxygen-gtk.so",
+            .objectoffset = quintptr(0xaa20a)}};
 
     for (const auto &d : dataList) {
         QTest::newRow(d.data.toStdString().c_str())

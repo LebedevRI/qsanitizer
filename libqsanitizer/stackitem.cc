@@ -30,36 +30,22 @@ StackItem::StackItem(const QString &string)
 
     QStringList substrings = this->string.split(" ");
 
-    int i = 0;
-
-    QString strnum = substrings.at(i);
+    QString strnum = substrings.first();
     this->num = strnum.remove(0, 1).toULong();
-
-    i++;
+    substrings.removeFirst();
 
     bool ok;
-    this->pointer = substrings.at(i).toULongLong(&ok, 16);
 
-    if (substrings.size() < 3)
+    this->pointer = substrings.first().toULongLong(&ok, 16);
+    substrings.removeFirst();
+
+    if (substrings.isEmpty())
         return;
 
-    i++;
-
-    if (substrings.size() < 4)
-        goto later;
-
-    i++;
-
-    this->function = substrings.at(i);
-
-    i++;
-
-later:
-
-    if (substrings.at(i).at(0) == '('
-        && substrings.at(i).at(substrings.at(i).length() - 1) == ')') {
+    QString last = substrings.last();
+    if (last.at(0) == '(' && last.at(last.length() - 1) == ')') {
         // got object name + offset
-        QString object = substrings.at(i);
+        QString object = last;
         object.remove(0, 1);
         object.remove(object.length() - 1, 1);
 
@@ -68,13 +54,18 @@ later:
         this->objectoffset = objectparts.at(1).toULongLong(&ok, 16);
     } else {
         // got source filename and line number!
-        QStringList srcfileinfo = substrings.at(i).split(":");
+        QStringList srcfileinfo = last.split(":");
         this->sourcefile = srcfileinfo.at(0);
         this->sourcefileline = srcfileinfo.at(1).toULong();
     }
+    substrings.removeLast();
 
-    if (substrings.size() < 6)
+    if (substrings.empty())
         return;
+
+    substrings.removeFirst();
+
+    this->function = substrings.join(" ");
 }
 
 StackItem::~StackItem() {}
