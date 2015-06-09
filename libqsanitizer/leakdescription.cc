@@ -26,6 +26,8 @@ LeakDescription::LeakDescription() {}
 
 LeakDescription::LeakDescription(const QString &string)
 {
+    this->string = string;
+
     QStringList substrings = string.split(" ");
 
     if (substrings.at(0) == QString("Direct"))
@@ -38,6 +40,8 @@ LeakDescription::LeakDescription(const QString &string)
 }
 
 LeakDescription::~LeakDescription() {}
+
+const QString &LeakDescription::getString() const { return this->string; }
 
 bool LeakDescription::getLeakType() const { return this->directLeak; }
 

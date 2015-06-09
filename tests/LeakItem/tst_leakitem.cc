@@ -159,6 +159,7 @@ void LeakItemTest::testCase1()
     LeakItem *li = new LeakItem(data);
     LeakDescription ld = li->getLeakDescription();
 
+    QVERIFY(description.data == ld.getString());
     QVERIFY(description.directLeak == ld.getLeakType());
     QVERIFY(description.leakSize == ld.getLeakSize());
     QVERIFY(description.leakCount == ld.getLeakCount());
@@ -170,6 +171,7 @@ void LeakItemTest::testCase1()
         auto entryLocal = stack.at(i);
         auto entryParsed = li->getAllocationStack().at(i);
 
+        QVERIFY(entryLocal.data == entryParsed.getString());
         QVERIFY(entryLocal.num == entryParsed.getStackItemNum());
         QVERIFY(entryLocal.pointer == entryParsed.getPointer());
         QVERIFY(entryLocal.function == entryParsed.getFunction());

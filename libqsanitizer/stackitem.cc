@@ -26,7 +26,9 @@ StackItem::StackItem(const QString &string)
     : num(0), pointer(quintptr(NULL)), function(""), sourcefile(""),
       sourcefileline(0), object(""), objectoffset(quintptr(NULL))
 {
-    QStringList substrings = string.trimmed().split(" ");
+    this->string = string.trimmed();
+
+    QStringList substrings = this->string.split(" ");
 
     int i = 0;
 
@@ -76,6 +78,8 @@ later:
 }
 
 StackItem::~StackItem() {}
+
+const QString &StackItem::getString() const { return this->string; }
 
 std::size_t StackItem::getStackItemNum() const { return this->num; }
 

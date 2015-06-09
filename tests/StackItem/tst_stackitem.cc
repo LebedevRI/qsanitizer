@@ -106,6 +106,7 @@ void StackItemTest::testCase1()
 
     StackItem *si = new StackItem(data);
 
+    QVERIFY(data == si->getString());
     QVERIFY(num == si->getStackItemNum());
     QVERIFY(pointer == si->getPointer());
     QVERIFY(function == si->getFunction());

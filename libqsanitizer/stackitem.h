@@ -28,6 +28,7 @@ public:
     StackItem(const QString &string);
     ~StackItem();
 
+    const QString &getString() const;
     std::size_t getStackItemNum() const;
     quintptr getPointer() const;
     const QString &getFunction() const;
@@ -37,6 +38,7 @@ public:
     quintptr getObjectOffset() const;
 
 private:
+    QString string;
     std::size_t num;
     quintptr pointer;
     QString function;

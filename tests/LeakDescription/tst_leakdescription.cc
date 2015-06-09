@@ -113,6 +113,7 @@ void LeakDescriptionTest::testCase1()
 
     LeakDescription *li = new LeakDescription(data);
 
+    QVERIFY(data == li->getString());
     QVERIFY(directLeak == li->getLeakType());
     QVERIFY(leakSize == li->getLeakSize());
     QVERIFY(leakCount == li->getLeakCount());
