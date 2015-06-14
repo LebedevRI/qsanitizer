@@ -68,10 +68,16 @@
         </item>
        </layout>
       </widget>
+      <zorder>formLayoutWidget</zorder>
+      <zorder>listView</zorder>
      </widget>
     </item>
     <item>
-     <widget class="QListView" name="listView"/>
+     <widget class="QListView" name="listView">
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
