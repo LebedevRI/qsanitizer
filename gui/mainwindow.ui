@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>648</width>
-    <height>372</height>
+    <width>919</width>
+    <height>566</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,23 +16,62 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QListView" name="listView">
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>74</height>
+       </size>
       </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
+      <property name="title">
+       <string>Filtering:</string>
       </property>
-      <property name="verticalScrollMode">
-       <enum>QAbstractItemView::ScrollPerPixel</enum>
-      </property>
-      <property name="horizontalScrollMode">
-       <enum>QAbstractItemView::ScrollPerPixel</enum>
-      </property>
-      <property name="spacing">
-       <number>10</number>
-      </property>
+      <widget class="QWidget" name="formLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>20</y>
+         <width>610</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>&amp;Filter pattern:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="minimumSize">
+           <size>
+            <width>500</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Filter &amp;syntax:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
+    </item>
+    <item>
+     <widget class="QListView" name="listView"/>
     </item>
    </layout>
   </widget>
@@ -41,7 +80,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>648</width>
+     <width>919</width>
      <height>19</height>
     </rect>
    </property>
@@ -60,7 +99,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

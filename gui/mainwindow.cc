@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QSortFilterProxyModel>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -29,10 +30,17 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), sanitizer(new QSanitizer()),
-      model(new LeakListModel(this))
+      model(new LeakListModel(this)),
+      proxyModel(new QSortFilterProxyModel(this))
 {
     ui->setupUi(this);
-    ui->listView->setModel(model);
+
+    ui->comboBox->addItem(tr("Regular expression"), QRegExp::RegExp);
+    ui->comboBox->addItem(tr("Wildcard"), QRegExp::Wildcard);
+    ui->comboBox->addItem(tr("Fixed string"), QRegExp::FixedString);
+
+    proxyModel->setSourceModel(model);
+    ui->listView->setModel(proxyModel);
 }
 
 MainWindow::~MainWindow()
@@ -57,7 +65,8 @@ void MainWindow::openLog(const QString &logFile)
 
     this->model = new LeakListModel(sanitizer->getLeaks(), this);
 
-    ui->listView->setModel(this->model);
+    proxyModel->setSourceModel(model);
+    ui->listView->setModel(proxyModel);
 }
 
 void MainWindow::on_action_Open_Log_triggered()
@@ -72,3 +81,17 @@ void MainWindow::on_action_Open_Log_triggered()
 }
 
 void MainWindow::on_action_Quit_triggered() { this->close(); }
+
+void MainWindow::on_lineEdit_textChanged()
+{
+    QRegExp::PatternSyntax syntax = QRegExp::PatternSyntax(
+        ui->comboBox->itemData(ui->comboBox->currentIndex()).toInt());
+
+    QRegExp regExp(ui->lineEdit->text(), Qt::CaseInsensitive, syntax);
+    proxyModel->setFilterRegExp(regExp);
+}
+
+void MainWindow::on_comboBox_currentIndexChanged(int index)
+{
+    this->on_lineEdit_textChanged();
+}

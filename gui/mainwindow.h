@@ -21,6 +21,7 @@
 
 #include <QMainWindow>
 #include <QStringListModel>
+#include <QSortFilterProxyModel>
 
 #include "qsanitizer.h"
 #include "leaklistmodel.h"
@@ -44,10 +45,15 @@ private slots:
     void on_action_Open_Log_triggered();
     void on_action_Quit_triggered();
 
+    void on_lineEdit_textChanged();
+
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     QSanitizer *sanitizer;
     LeakListModel *model;
+    QSortFilterProxyModel *proxyModel;
 };
 
 #endif // MAINWINDOW_H
