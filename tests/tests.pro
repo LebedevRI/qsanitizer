@@ -3,7 +3,8 @@ TEMPLATE = subdirs
 SUBDIRS += \
     LeakDescription \
     StackItem \
-    LeakItem
+    LeakItem \
+    StackItemParserXml
 
 LeakItem.depends = LeakDescription
 LeakItem.depends = StackItem

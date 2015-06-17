@@ -17,14 +17,16 @@ SOURCES += qsanitizer.cc \
     leakitem.cc \
     stackitem.cc \
     leakdescription.cc \
-    leaklistmodel.cc
+    leaklistmodel.cc \
+    stackitemparserxml.cc
 
 HEADERS += qsanitizer.h\
 		libqsanitizer_global.h \
     leakitem.h \
     stackitem.h \
     leakdescription.h \
-    leaklistmodel.h
+    leaklistmodel.h \
+    stackitemparserxml.h
 
 unix {
 	target.path = /usr/lib
