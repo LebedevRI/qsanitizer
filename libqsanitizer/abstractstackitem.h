@@ -16,22 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STACKITEMPARSERXML_H
-#define STACKITEMPARSERXML_H
+#ifndef ABSTRACTSTACKITEM_H
+#define ABSTRACTSTACKITEM_H
 
 #include <QString>
-#include <QXmlStreamReader>
 
-#include "abstractstackitem.h"
-
-class StackItemParserXml : public AbstractStackItem
+class AbstractStackItem
 {
 public:
-    StackItemParserXml(const QString &string);
-    ~StackItemParserXml();
+    AbstractStackItem();
+    ~AbstractStackItem();
 
-private:
-    QString readNextText(QXmlStreamReader *xml) const;
+    const QString &getString() const;
+    std::size_t getStackItemNum() const;
+    quintptr getPointer() const;
+    const QString &getFunction() const;
+    const QString &getSourceFile() const;
+    std::size_t getSourceFileLine() const;
+    const QString &getObject() const;
+    quintptr getObjectOffset() const;
+
+protected:
+    QString string;
+    std::size_t num;
+    quintptr pointer;
+    QString function;
+    QString sourcefile;
+    std::size_t sourcefileline;
+    QString object;
+    quintptr objectoffset;
 };
 
-#endif // STACKITEMPARSERXML_H
+#endif // ABSTRACTSTACKITEM_H

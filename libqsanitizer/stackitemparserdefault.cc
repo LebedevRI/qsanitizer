@@ -16,13 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGlobal>
 #include <QString>
 #include <QStringList>
 
-#include "stackitem.h"
+#include "stackitemparserdefault.h"
 
-StackItem::StackItem(const QString &string)
+StackItemParserDefault::StackItemParserDefault(const QString &string)
 {
     this->string = string.trimmed();
 
@@ -66,4 +65,4 @@ StackItem::StackItem(const QString &string)
     this->function = substrings.join(" ");
 }
 
-StackItem::~StackItem() {}
+StackItemParserDefault::~StackItemParserDefault() {}

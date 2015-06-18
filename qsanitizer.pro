@@ -7,5 +7,5 @@ SUBDIRS += \
     tests \
     gui
 
-gui.depends = libqsanitizer
 tests.depends = libqsanitizer
+gui.depends = libqsanitizer

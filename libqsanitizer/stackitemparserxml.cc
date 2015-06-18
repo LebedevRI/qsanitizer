@@ -27,12 +27,10 @@ QString StackItemParserXml::readNextText(QXmlStreamReader *xml) const
     return xml->text().toString();
 }
 
-StackItemParserXml::StackItemParserXml(const QString &string)
-    : string(QString("")), num(0ul), pointer(quintptr(0x0)),
-      function(QString("")), sourcefile(QString("")), sourcefileline(0ul),
-      object(QString("")), objectoffset(quintptr(0x0))
+StackItemParserXml::StackItemParserXml(const QString &string1)
 {
-    QXmlStreamReader *xml = new QXmlStreamReader(string);
+    this->string = QString("");
+    QXmlStreamReader *xml = new QXmlStreamReader(string1);
 
     if (xml->readNextStartElement() && xml->name() == "frame") {
         while (xml->readNextStartElement()) {
@@ -71,31 +69,3 @@ StackItemParserXml::StackItemParserXml(const QString &string)
 }
 
 StackItemParserXml::~StackItemParserXml() {}
-
-const QString &StackItemParserXml::getString() const { return this->string; }
-
-std::size_t StackItemParserXml::getStackItemNum() const { return this->num; }
-
-quintptr StackItemParserXml::getPointer() const { return this->pointer; }
-
-const QString &StackItemParserXml::getFunction() const
-{
-    return this->function;
-}
-
-const QString &StackItemParserXml::getSourceFile() const
-{
-    return this->sourcefile;
-}
-
-std::size_t StackItemParserXml::getSourceFileLine() const
-{
-    return this->sourcefileline;
-}
-
-const QString &StackItemParserXml::getObject() const { return this->object; }
-
-quintptr StackItemParserXml::getObjectOffset() const
-{
-    return this->objectoffset;
-}

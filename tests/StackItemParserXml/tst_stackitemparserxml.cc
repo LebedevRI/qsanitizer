@@ -19,8 +19,8 @@
 #include <QString>
 #include <QtTest>
 
-#include "stackitemparserxml.h"
 #include "tst_stackitem.h"
+#include "stackitemparserxml.h"
 
 class StackItemParserXmlTest : public QObject
 {
@@ -114,4 +114,4 @@ void StackItemParserXmlTest::testCase1()
 
 QTEST_APPLESS_MAIN(StackItemParserXmlTest)
 
-#include "tst_stackitemparserxmltest.moc"
+#include "tst_stackitemparserxml.moc"
