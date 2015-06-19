@@ -20,6 +20,7 @@
 #include <QtTest>
 
 #include "tst_stackitem.h"
+#include "tst_stackitemparserxml.h"
 #include "stackitemparserxml.h"
 
 class StackItemParserXmlTest : public QObject
@@ -48,39 +49,7 @@ void StackItemParserXmlTest::testCase1_data()
     QTest::addColumn<QString>("object");
     QTest::addColumn<quintptr>("objectoffset");
 
-    QList<StackItemTestData> dataList
-        = {{.data = "<frame><n>14</n></frame>", .num = 14ul},
-           {.data = "<frame><p>0x7fd041ffb018</p></frame>",
-            .pointer = quintptr(0x7fd041ffb018)},
-           {.data = "<frame><m>/usr/local/bin/../lib/darktable/"
-                    "libdarktable.so</m></frame>",
-            .object = "/usr/local/bin/../lib/darktable/libdarktable.so"},
-           {.data = "<frame><o>0x12b018</o></frame>",
-            .objectoffset = quintptr(0x12b018)},
-           {.data = "<frame><f>dt_legacy_presets_create</f></frame>",
-            .function = "dt_legacy_presets_create"},
-           {.data = "<frame><s>/home/lebedevri/darktable/src/gui/"
-                    "legacy_presets.h</s></frame>",
-            .sourcefile = "/home/lebedevri/darktable/src/gui/legacy_presets.h"},
-           {.data = "<frame><l>1126</l></frame>", .sourcefileline = 1126ul},
-           {.data = "<frame><n>14</n><p>0x7fd041ffb018</p><m>/usr/local/bin/../"
-                    "lib/darktable/libdarktable.so</m><o>0x12b018</"
-                    "o><f>dt_legacy_presets_create</f><q>0x0</q><s>/home/"
-                    "lebedevri/darktable/src/gui/legacy_presets.h</s><l>1126</"
-                    "l><c>0</c><F>in "
-                    "dt_legacy_presets_create</F><S>/home/lebedevri/darktable/"
-                    "src/gui/legacy_presets.h:1126</S><L>/home/lebedevri/"
-                    "darktable/src/gui/legacy_presets.h:1126</"
-                    "L><M>(libdarktable.so+0x00000012b018)</M></frame>",
-            .num = 14ul,
-            .pointer = quintptr(0x7fd041ffb018),
-            .object = "/usr/local/bin/../lib/darktable/libdarktable.so",
-            .objectoffset = quintptr(0x12b018),
-            .function = "dt_legacy_presets_create",
-            .sourcefile = "/home/lebedevri/darktable/src/gui/legacy_presets.h",
-            .sourcefileline = 1126ul}};
-
-    for (const auto &d : dataList) {
+    for (const auto &d : StackItemParserXmlTestDataList) {
         QTest::newRow(d.data.toStdString().c_str())
             << d.data << d.num << d.pointer << d.function << d.sourcefile
             << d.sourcefileline << d.object << d.objectoffset;

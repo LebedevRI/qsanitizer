@@ -22,6 +22,8 @@
 
 #include "stackitem.h"
 #include "tst_stackitem.h"
+#include "tst_stackitemparserxml.h"
+#include "tst_stackitemparserdefault.h"
 
 class StackItemTest : public QObject
 {
@@ -49,88 +51,13 @@ void StackItemTest::testCase1_data()
     QTest::addColumn<QString>("object");
     QTest::addColumn<quintptr>("objectoffset");
 
-    QList<StackItemTestData> dataList
-        = {{.data = "#14 0x7f037c02fa91 in dt_gui_preferences_show "
-                    "/home/lebedevri/darktable/src/gui/preferences.c:257",
-            .num = 14ul,
-            .pointer = quintptr(0x7f037c02fa91),
-            .function = "dt_gui_preferences_show",
-            .sourcefile = "/home/lebedevri/darktable/src/gui/preferences.c",
-            .sourcefileline = 257ul,
-            .object = "",
-            .objectoffset = quintptr(NULL)},
-           {.data = "#15 0x7f03525aa67d",
-            .num = 15ul,
-            .pointer = quintptr(0x7f03525aa67d),
-            .function = "",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "",
-            .objectoffset = quintptr(NULL)},
-           {.data = "#5 0x7f037b724748 in gtk_tree_model_get "
-                    "(/usr/lib/x86_64-linux-gnu/libgtk-3.so.0+0x2e4748)",
-            .num = 5ul,
-            .pointer = quintptr(0x7f037b724748),
-            .function = "gtk_tree_model_get",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "/usr/lib/x86_64-linux-gnu/libgtk-3.so.0",
-            .objectoffset = quintptr(0x2e4748)},
-           {.data = "#3 0x7f0379b80e2c "
-                    "(/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0+0x38e2c)",
-            .num = 3ul,
-            .pointer = quintptr(0x7f0379b80e2c),
-            .function = "",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0",
-            .objectoffset = quintptr(0x38e2c)},
-           {.data = "#2 0x7f035401220a in "
-                    "Oxygen::QtSettings::isAtomSupported(std::string const&) "
-                    "const "
-                    "(/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/theming-engines/"
-                    "liboxygen-gtk.so+0xaa20a)",
-            .num = 2ul,
-            .pointer = quintptr(0x7f035401220a),
-            .function
-            = "Oxygen::QtSettings::isAtomSupported(std::string const&) const",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/theming-engines/"
-                      "liboxygen-gtk.so",
-            .objectoffset = quintptr(0xaa20a)},
-           {.data = "<frame><n>14</n></frame>", .num = 14ul},
-           {.data = "<frame><p>0x7fd041ffb018</p></frame>",
-            .pointer = quintptr(0x7fd041ffb018)},
-           {.data = "<frame><m>/usr/local/bin/../lib/darktable/"
-                    "libdarktable.so</m></frame>",
-            .object = "/usr/local/bin/../lib/darktable/libdarktable.so"},
-           {.data = "<frame><o>0x12b018</o></frame>",
-            .objectoffset = quintptr(0x12b018)},
-           {.data = "<frame><f>dt_legacy_presets_create</f></frame>",
-            .function = "dt_legacy_presets_create"},
-           {.data = "<frame><s>/home/lebedevri/darktable/src/gui/"
-                    "legacy_presets.h</s></frame>",
-            .sourcefile = "/home/lebedevri/darktable/src/gui/legacy_presets.h"},
-           {.data = "<frame><l>1126</l></frame>", .sourcefileline = 1126ul},
-           {.data = "<frame><n>14</n><p>0x7fd041ffb018</p><m>/usr/local/bin/../"
-                    "lib/darktable/libdarktable.so</m><o>0x12b018</"
-                    "o><f>dt_legacy_presets_create</f><q>0x0</q><s>/home/"
-                    "lebedevri/darktable/src/gui/legacy_presets.h</s><l>1126</"
-                    "l><c>0</c><F>in "
-                    "dt_legacy_presets_create</F><S>/home/lebedevri/darktable/"
-                    "src/gui/legacy_presets.h:1126</S><L>/home/lebedevri/"
-                    "darktable/src/gui/legacy_presets.h:1126</"
-                    "L><M>(libdarktable.so+0x00000012b018)</M></frame>",
-            .num = 14ul,
-            .pointer = quintptr(0x7fd041ffb018),
-            .object = "/usr/local/bin/../lib/darktable/libdarktable.so",
-            .objectoffset = quintptr(0x12b018),
-            .function = "dt_legacy_presets_create",
-            .sourcefile = "/home/lebedevri/darktable/src/gui/legacy_presets.h",
-            .sourcefileline = 1126ul}};
+    for (const auto &d : StackItemParserDefaultTestDataList) {
+        QTest::newRow(d.data.toStdString().c_str())
+            << d.data << d.num << d.pointer << d.function << d.sourcefile
+            << d.sourcefileline << d.object << d.objectoffset;
+    }
 
-    for (const auto &d : dataList) {
+    for (const auto &d : StackItemParserXmlTestDataList) {
         QTest::newRow(d.data.toStdString().c_str())
             << d.data << d.num << d.pointer << d.function << d.sourcefile
             << d.sourcefileline << d.object << d.objectoffset;

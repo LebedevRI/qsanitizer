@@ -29,3 +29,6 @@ DEPENDPATH += $$PWD/../../libqsanitizer
 
 INCLUDEPATH += $$PWD/../StackItem
 DEPENDPATH += $$PWD/../StackItem
+
+HEADERS += \
+    tst_stackitemparserdefault.h

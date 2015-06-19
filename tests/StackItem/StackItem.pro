@@ -27,5 +27,11 @@ else:unix: LIBS += -L$$OUT_PWD/../../libqsanitizer/ -lqsanitizer -Wl,-rpath=$$OU
 INCLUDEPATH += $$PWD/../../libqsanitizer
 DEPENDPATH += $$PWD/../../libqsanitizer
 
+INCLUDEPATH += $$PWD/../StackItemParserDefault
+DEPENDPATH += $$PWD/../StackItemParserDefault
+
+INCLUDEPATH += $$PWD/../StackItemParserXml
+DEPENDPATH += $$PWD/../StackItemParserXml
+
 HEADERS += \
     tst_stackitem.h

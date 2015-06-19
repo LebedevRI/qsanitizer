@@ -20,6 +20,7 @@
 #include <QtTest>
 
 #include "tst_stackitem.h"
+#include "tst_stackitemparserdefault.h"
 #include "stackitemparserdefault.h"
 
 class StackItemParserDefaultTest : public QObject
@@ -48,58 +49,7 @@ void StackItemParserDefaultTest::testCase1_data()
     QTest::addColumn<QString>("object");
     QTest::addColumn<quintptr>("objectoffset");
 
-    QList<StackItemTestData> dataList
-        = {{.data = "#14 0x7f037c02fa91 in dt_gui_preferences_show "
-                    "/home/lebedevri/darktable/src/gui/preferences.c:257",
-            .num = 14ul,
-            .pointer = quintptr(0x7f037c02fa91),
-            .function = "dt_gui_preferences_show",
-            .sourcefile = "/home/lebedevri/darktable/src/gui/preferences.c",
-            .sourcefileline = 257ul,
-            .object = "",
-            .objectoffset = quintptr(NULL)},
-           {.data = "#15 0x7f03525aa67d",
-            .num = 15ul,
-            .pointer = quintptr(0x7f03525aa67d),
-            .function = "",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "",
-            .objectoffset = quintptr(NULL)},
-           {.data = "#5 0x7f037b724748 in gtk_tree_model_get "
-                    "(/usr/lib/x86_64-linux-gnu/libgtk-3.so.0+0x2e4748)",
-            .num = 5ul,
-            .pointer = quintptr(0x7f037b724748),
-            .function = "gtk_tree_model_get",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "/usr/lib/x86_64-linux-gnu/libgtk-3.so.0",
-            .objectoffset = quintptr(0x2e4748)},
-           {.data = "#3 0x7f0379b80e2c "
-                    "(/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0+0x38e2c)",
-            .num = 3ul,
-            .pointer = quintptr(0x7f0379b80e2c),
-            .function = "",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0",
-            .objectoffset = quintptr(0x38e2c)},
-           {.data = "#2 0x7f035401220a in "
-                    "Oxygen::QtSettings::isAtomSupported(std::string const&) "
-                    "const "
-                    "(/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/theming-engines/"
-                    "liboxygen-gtk.so+0xaa20a)",
-            .num = 2ul,
-            .pointer = quintptr(0x7f035401220a),
-            .function
-            = "Oxygen::QtSettings::isAtomSupported(std::string const&) const",
-            .sourcefile = "",
-            .sourcefileline = 0ul,
-            .object = "/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/theming-engines/"
-                      "liboxygen-gtk.so",
-            .objectoffset = quintptr(0xaa20a)}};
-
-    for (const auto &d : dataList) {
+    for (const auto &d : StackItemParserDefaultTestDataList) {
         QTest::newRow(d.data.toStdString().c_str())
             << d.data << d.num << d.pointer << d.function << d.sourcefile
             << d.sourcefileline << d.object << d.objectoffset;
