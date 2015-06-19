@@ -44,6 +44,25 @@ StackItem::StackItem(const QString &string)
     this->sourcefileline = StackItemParser.getSourceFileLine();
     this->object = StackItemParser.getObject();
     this->objectoffset = StackItemParser.getObjectOffset();
+
+    if (this->string.isEmpty()) {
+        this->string = QString("#%1 0x%2")
+                           .arg(this->num)
+                           .arg(QString::number(this->pointer, 16));
+
+        if (!this->function.isEmpty())
+            this->string.append(QString(" in %1").arg(this->function));
+
+        if (!this->sourcefile.isEmpty())
+            this->string.append(QString(" %1:%2")
+                                    .arg(this->sourcefile)
+                                    .arg(this->sourcefileline));
+        else if (!this->object.isEmpty())
+            this->string.append(
+                QString(" (%1+0x%2)")
+                    .arg(this->object)
+                    .arg(QString::number(this->objectoffset, 16)));
+    }
 }
 
 StackItem::~StackItem() {}
