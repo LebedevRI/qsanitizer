@@ -26,6 +26,7 @@ AbstractStackItem::AbstractStackItem()
       objectoffset(quintptr(0x0))
 {
 }
+
 AbstractStackItem::~AbstractStackItem() {}
 
 const QString &AbstractStackItem::getString() const { return this->string; }

@@ -21,49 +21,29 @@
 #include <QStringList>
 
 #include "stackitem.h"
+#include "stackitemparserxml.h"
+#include "stackitemparserdefault.h"
 
 StackItem::StackItem(const QString &string)
 {
-    this->string = string.trimmed();
+    QString str = string.trimmed();
 
-    QStringList substrings = this->string.split(" ");
+    AbstractStackItem StackItemParser;
 
-    QString strnum = substrings.first();
-    this->num = strnum.remove(0, 1).toULong();
-    substrings.removeFirst();
-
-    bool ok;
-
-    this->pointer = substrings.first().toULongLong(&ok, 16);
-    substrings.removeFirst();
-
-    if (substrings.isEmpty())
-        return;
-
-    QString last = substrings.last();
-    if (last.at(0) == '(' && last.at(last.length() - 1) == ')') {
-        // got object name + offset
-        QString object = last;
-        object.remove(0, 1);
-        object.remove(object.length() - 1, 1);
-
-        QStringList objectparts = object.split("+");
-        this->object = objectparts.at(0);
-        this->objectoffset = objectparts.at(1).toULongLong(&ok, 16);
+    if (str.at(0) == '<' && str.at(str.length() - 1) == '>') {
+        StackItemParser = StackItemParserXml(str);
     } else {
-        // got source filename and line number!
-        QStringList srcfileinfo = last.split(":");
-        this->sourcefile = srcfileinfo.at(0);
-        this->sourcefileline = srcfileinfo.at(1).toULong();
+        StackItemParser = StackItemParserDefault(str);
     }
-    substrings.removeLast();
 
-    if (substrings.empty())
-        return;
-
-    substrings.removeFirst();
-
-    this->function = substrings.join(" ");
+    this->string = StackItemParser.getString();
+    this->num = StackItemParser.getStackItemNum();
+    this->pointer = StackItemParser.getPointer();
+    this->function = StackItemParser.getFunction();
+    this->sourcefile = StackItemParser.getSourceFile();
+    this->sourcefileline = StackItemParser.getSourceFileLine();
+    this->object = StackItemParser.getObject();
+    this->objectoffset = StackItemParser.getObjectOffset();
 }
 
 StackItem::~StackItem() {}
