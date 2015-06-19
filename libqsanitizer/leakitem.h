@@ -21,6 +21,9 @@
 
 #include <QtGlobal>
 #include <QString>
+#include <QList>
+#include <QStringList>
+#include <QSet>
 
 #include "leakdescription.h"
 #include "stackitem.h"
@@ -34,6 +37,7 @@ public:
     QString getString() const;
     const LeakDescription &getLeakDescription() const;
     const QList<StackItem> &getAllocationStack() const;
+    QSet<QString> getObjectsSet() const;
 
 private:
     LeakDescription description;

@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
-#include <QtGlobal>
 #include <QString>
+#include <QList>
 #include <QStringList>
+#include <QSet>
 
 #include "leakitem.h"
 #include "stackitem.h"
@@ -57,4 +57,15 @@ const LeakDescription &LeakItem::getLeakDescription() const
 const QList<StackItem> &LeakItem::getAllocationStack() const
 {
     return this->allocationStack;
-};
+}
+
+QSet<QString> LeakItem::getObjectsSet() const
+{
+    QSet<QString> objects;
+
+    for (const auto &f : this->allocationStack) {
+        objects.insert(f.getObject());
+    }
+
+    return objects;
+}

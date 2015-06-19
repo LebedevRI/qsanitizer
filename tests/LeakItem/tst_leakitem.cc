@@ -18,6 +18,7 @@
 
 #include <QString>
 #include <QList>
+#include <QSet>
 #include <QtTest>
 
 #include "leakdescription.h"
@@ -31,6 +32,7 @@ typedef struct {
     QString data;
     LeakDescriptionTestData description;
     QList<StackItemTestData> stack;
+    QSet<QString> objects;
 } LeakItemTestData;
 
 Q_DECLARE_METATYPE(LeakItemTestData)
@@ -55,6 +57,7 @@ void LeakItemTest::testCase1_data()
     QTest::addColumn<QString>("data");
     QTest::addColumn<LeakDescriptionTestData>("description");
     QTest::addColumn<QList<StackItemTestData>>("stack");
+    QTest::addColumn<QSet<QString>>("objects");
 
     QList<LeakItemTestData> dataList = {
         {.data
@@ -140,12 +143,16 @@ void LeakItemTest::testCase1_data()
              .sourcefile = "",
              .sourcefileline = 0ul,
              .object = "/usr/lib/x86_64-linux-gnu/libffi.so.6",
-             .objectoffset = quintptr(0x5827)}}}};
+             .objectoffset = quintptr(0x5827)}},
+         .objects = {"/usr/lib/x86_64-linux-gnu/libasan.so.1",
+                     "/usr/lib/x86_64-linux-gnu/libgtk-3.so.0", "",
+                     "/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0",
+                     "/usr/lib/x86_64-linux-gnu/libffi.so.6"}}};
 
     int i = 0;
     for (const auto &d : dataList) {
         QTest::newRow(QString::number(i).toStdString().c_str())
-            << d.data << d.description << d.stack;
+            << d.data << d.description << d.stack << d.objects;
         i++;
     }
 }
@@ -155,6 +162,7 @@ void LeakItemTest::testCase1()
     QFETCH(QString, data);
     QFETCH(LeakDescriptionTestData, description);
     QFETCH(QList<StackItemTestData>, stack);
+    QFETCH(QSet<QString>, objects);
 
     LeakItem *li = new LeakItem(data);
     LeakDescription ld = li->getLeakDescription();
@@ -180,6 +188,8 @@ void LeakItemTest::testCase1()
         QVERIFY(entryLocal.object == entryParsed.getObject());
         QVERIFY(entryLocal.objectoffset == entryParsed.getObjectOffset());
     }
+
+    QVERIFY(objects == li->getObjectsSet());
 
     delete li;
 }
