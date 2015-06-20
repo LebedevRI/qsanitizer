@@ -18,6 +18,7 @@
 
 #include <QAbstractListModel>
 #include <QList>
+#include <QStringList>
 
 #include "leaklistmodel.h"
 #include "leakitem.h"
@@ -27,7 +28,7 @@ LeakListModel::LeakListModel(QObject *parent)
 {
 }
 
-LeakListModel::LeakListModel(const QList<LeakItem> &leaks, QObject *parent)
+LeakListModel::LeakListModel(const LeakList &leaks, QObject *parent)
     : QAbstractListModel(parent), leakList(leaks)
 {
 }

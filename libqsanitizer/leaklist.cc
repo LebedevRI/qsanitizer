@@ -16,26 +16,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSANITIZER_H
-#define QSANITIZER_H
+#include <QList>
+#include <QMap>
+#include <QStringList>
 
-#include <QString>
-
-#include "libqsanitizer_global.h"
 #include "leaklist.h"
+#include "leakitem.h"
 
-class LIBQSANITIZERSHARED_EXPORT QSanitizer
+LeakList::LeakList() {}
+
+LeakList::LeakList(const QStringList &strings)
 {
+    for (const auto &s : strings) {
+        if (s.startsWith("Direct leak of")
+            || s.startsWith("Indirect leak of")) {
+            this->append(LeakItem(s));
+        }
+    }
+}
 
-public:
-    QSanitizer();
-    QSanitizer(const QString &logFile);
+LeakList::~LeakList() {}
 
-    const LeakList &getLeaks() const;
+QMap<QString, int> LeakList::getObjectsMap() const
+{
+    QMap<QString, int> objects;
 
-private:
-    QString logFileName;
-    LeakList leaks;
-};
+    for (const auto &f : *this) {
+        auto set = f.getObjectsSet();
 
-#endif // QSANITIZER_H
+        for (const auto &object : set) {
+            objects[object]++;
+        }
+    }
+
+    return objects;
+}

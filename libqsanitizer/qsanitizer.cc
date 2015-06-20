@@ -19,9 +19,11 @@
 #include <QString>
 #include <QFile>
 #include <QTextStream>
+#include <QString>
 #include <QStringList>
 
 #include "qsanitizer.h"
+#include "leaklist.h"
 
 QSanitizer::QSanitizer() {}
 
@@ -36,14 +38,9 @@ QSanitizer::QSanitizer(const QString &logFile)
     QString longstring(in.readAll());
     QStringList strings = longstring.split("\n\n");
 
-    for (const auto &s : strings) {
-        if (s.startsWith("Direct leak of")
-            || s.startsWith("Indirect leak of")) {
-            this->leaks.append(LeakItem(s));
-        }
-    }
+    this->leaks = LeakList(strings);
 
     file.close();
 }
 
-const QList<LeakItem> &QSanitizer::getLeaks() const { return this->leaks; }
+const LeakList &QSanitizer::getLeaks() const { return this->leaks; }

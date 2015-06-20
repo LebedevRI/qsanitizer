@@ -23,19 +23,20 @@
 #include <QList>
 
 #include "leakitem.h"
+#include "leaklist.h"
 
 class LeakListModel : public QAbstractListModel
 {
 public:
     LeakListModel(QObject *parent = 0);
-    LeakListModel(const QList<LeakItem> &leaks, QObject *parent = 0);
+    LeakListModel(const LeakList &leaks, QObject *parent = 0);
     ~LeakListModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
 
 private:
-    QList<LeakItem> leakList;
+    LeakList leakList;
 };
 
 #endif // LEAKLISTMODEL_H

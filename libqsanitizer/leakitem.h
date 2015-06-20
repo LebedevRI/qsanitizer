@@ -19,10 +19,8 @@
 #ifndef LEAKITEM_H
 #define LEAKITEM_H
 
-#include <QtGlobal>
 #include <QString>
 #include <QList>
-#include <QStringList>
 #include <QSet>
 
 #include "leakdescription.h"
