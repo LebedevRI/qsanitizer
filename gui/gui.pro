@@ -14,11 +14,16 @@ TEMPLATE = app
 CONFIG  += c++11
 
 SOURCES += main.cc\
-		mainwindow.cc
+		mainwindow.cc \
+    ignoredobjectsdialog.cc \
+    ignoredobjectstablemodel.cc
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    ignoredobjectsdialog.h \
+    ignoredobjectstablemodel.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    ignoredobjectsdialog.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libqsanitizer/release/ -lqsanitizer -Wl,-rpath=$$OUT_PWD/../libqsanitizer/release/
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../libqsanitizer/debug/ -lqsanitizer -Wl,-rpath=$$OUT_PWD/../libqsanitizer/debug/

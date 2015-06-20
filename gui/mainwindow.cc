@@ -25,12 +25,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "ignoredobjectsdialog.h"
+
 #include "qsanitizer.h"
 #include "leaklistmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), sanitizer(new QSanitizer()),
-      model(new LeakListModel(this)),
+    : QMainWindow(parent), ui(new Ui::MainWindow),
+      ignoredObjectsDialog(new IgnoredObjectsDialog(this)),
+      sanitizer(new QSanitizer()), model(new LeakListModel(this)),
       proxyModel(new QSortFilterProxyModel(this))
 {
     ui->setupUi(this);
@@ -94,4 +97,13 @@ void MainWindow::on_lineEdit_textChanged()
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     this->on_lineEdit_textChanged();
+}
+
+void MainWindow::on_action_Objects_triggered()
+{
+    ignoredObjectsDialog->SetObjectsMap(
+        this->sanitizer->getLeaks().getObjectsMap());
+    ignoredObjectsDialog->show();
+    ignoredObjectsDialog->raise();
+    ignoredObjectsDialog->activateWindow();
 }

@@ -16,48 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef IGNOREDOBJECTSDIALOG_H
+#define IGNOREDOBJECTSDIALOG_H
 
-#include <QMainWindow>
-#include <QStringListModel>
+#include <QDialog>
 #include <QSortFilterProxyModel>
 
-#include "ignoredobjectsdialog.h"
-#include "qsanitizer.h"
-#include "leaklistmodel.h"
+#include "ignoredobjectstablemodel.h"
 
 namespace Ui
 {
-class MainWindow;
+class IgnoredObjectsDialog;
 }
 
-class MainWindow : public QMainWindow
+class IgnoredObjectsDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-    void openLog(const QString &logFile);
-
-private slots:
-    void on_action_Open_Log_triggered();
-    void on_action_Quit_triggered();
-
-    void on_lineEdit_textChanged();
-
-    void on_comboBox_currentIndexChanged(int index);
-
-    void on_action_Objects_triggered();
+    explicit IgnoredObjectsDialog(QWidget *parent = 0);
+    void SetObjectsMap(const QMap<QString, int> &objects);
+    ~IgnoredObjectsDialog();
 
 private:
-    Ui::MainWindow *ui;
-    IgnoredObjectsDialog *ignoredObjectsDialog;
-    QSanitizer *sanitizer;
-    LeakListModel *model;
+    Ui::IgnoredObjectsDialog *ui;
+    IgnoredObjectsTableModel *tableModel;
     QSortFilterProxyModel *proxyModel;
 };
 
-#endif // MAINWINDOW_H
+#endif // IGNOREDOBJECTSDIALOG_H
