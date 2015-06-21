@@ -51,6 +51,7 @@ private slots:
     void on_comboBox_currentIndexChanged(int index);
 
     void on_action_Objects_triggered();
+    void ignoredObjectsSetChanged(QSet<QString> ignoredObjects);
 
 private:
     Ui::MainWindow *ui;
@@ -58,6 +59,7 @@ private:
     QSanitizer *sanitizer;
     LeakListModel *model;
     QSortFilterProxyModel *proxyModel;
+    QSet<QString> ignoredObjects;
 };
 
 #endif // MAINWINDOW_H

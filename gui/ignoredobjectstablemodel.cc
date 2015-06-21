@@ -19,7 +19,6 @@
 #include <QAbstractTableModel>
 #include <QString>
 #include <QCheckBox>
-#include <QDebug>
 
 #include "ignoredobjectstablemodel.h"
 
@@ -42,6 +41,31 @@ void IgnoredObjectsTableModel::setModel(const QMap<QString, int> &objects)
     }
 
     this->endResetModel();
+}
+
+void IgnoredObjectsTableModel::setIgnoredObjectsSet(
+    QSet<QString> ignoredObjects)
+{
+    for (auto &o : this->model) {
+        o.ignored = ignoredObjects.contains(o.object);
+    }
+
+    QModelIndex topLeft = createIndex(0, 0);
+    QModelIndex bottomLeft = createIndex(this->model.size(), 0);
+    emit dataChanged(topLeft, bottomLeft);
+}
+
+QSet<QString> IgnoredObjectsTableModel::getIgnoredObjectsSet() const
+{
+    QSet<QString> ignoredObjects;
+
+    for (const auto &o : this->model) {
+        if (o.ignored) {
+            ignoredObjects.insert(o.object);
+        }
+    }
+
+    return ignoredObjects;
 }
 
 int IgnoredObjectsTableModel::rowCount(const QModelIndex & /*parent*/) const

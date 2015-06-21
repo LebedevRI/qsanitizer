@@ -38,6 +38,8 @@ class IgnoredObjectsTableModel : public QAbstractTableModel
 public:
     IgnoredObjectsTableModel(QObject *parent);
     void setModel(const QMap<QString, int> &objects);
+    void setIgnoredObjectsSet(QSet<QString> ignoredObjects);
+    QSet<QString> getIgnoredObjectsSet() const;
     int rowCount(const QModelIndex &parent
                  = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent

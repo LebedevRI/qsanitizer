@@ -44,6 +44,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     proxyModel->setSourceModel(model);
     ui->listView->setModel(proxyModel);
+
+    connect(ignoredObjectsDialog,
+            SIGNAL(ignoredObjectsSetChanged(QSet<QString>)), this,
+            SLOT(ignoredObjectsSetChanged(QSet<QString>)));
 }
 
 MainWindow::~MainWindow()
@@ -102,7 +106,13 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 void MainWindow::on_action_Objects_triggered()
 {
     ignoredObjectsDialog->setModel(this->sanitizer->getLeaks().getObjectsMap());
+    ignoredObjectsDialog->setIgnoredObjectsSet(this->ignoredObjects);
     ignoredObjectsDialog->show();
     ignoredObjectsDialog->raise();
     ignoredObjectsDialog->activateWindow();
+}
+
+void MainWindow::ignoredObjectsSetChanged(QSet<QString> ignoredObjects)
+{
+    this->ignoredObjects = ignoredObjects;
 }

@@ -46,3 +46,17 @@ IgnoredObjectsDialog::~IgnoredObjectsDialog()
     delete ui;
     delete tableModel;
 }
+
+void IgnoredObjectsDialog::on_buttonBox_accepted()
+{
+    QSet<QString> ignoredObjects;
+
+    ignoredObjects = this->tableModel->getIgnoredObjectsSet();
+
+    emit ignoredObjectsSetChanged(ignoredObjects);
+}
+
+void IgnoredObjectsDialog::setIgnoredObjectsSet(QSet<QString> ignoredObjects)
+{
+    this->tableModel->setIgnoredObjectsSet(ignoredObjects);
+}

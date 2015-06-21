@@ -36,7 +36,14 @@ class IgnoredObjectsDialog : public QDialog
 public:
     explicit IgnoredObjectsDialog(QWidget *parent = 0);
     void setModel(const QMap<QString, int> &objects);
+    void setIgnoredObjectsSet(QSet<QString> ignoredObjects);
     ~IgnoredObjectsDialog();
+
+private slots:
+    void on_buttonBox_accepted();
+
+signals:
+    void ignoredObjectsSetChanged(QSet<QString> ignoredObjects);
 
 private:
     Ui::IgnoredObjectsDialog *ui;
