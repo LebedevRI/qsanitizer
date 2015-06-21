@@ -101,8 +101,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 
 void MainWindow::on_action_Objects_triggered()
 {
-    ignoredObjectsDialog->SetObjectsMap(
-        this->sanitizer->getLeaks().getObjectsMap());
+    ignoredObjectsDialog->setModel(this->sanitizer->getLeaks().getObjectsMap());
     ignoredObjectsDialog->show();
     ignoredObjectsDialog->raise();
     ignoredObjectsDialog->activateWindow();

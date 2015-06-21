@@ -24,12 +24,20 @@
 
 #include "leaklist.h"
 
+typedef struct {
+    QString object;
+    int occurences;
+    bool ignored;
+} IgnoredObjectsTableModelData;
+
+Q_DECLARE_METATYPE(IgnoredObjectsTableModelData)
+
 class IgnoredObjectsTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
     IgnoredObjectsTableModel(QObject *parent);
-    void SetObjectsMap(const QMap<QString, int> &objects);
+    void setModel(const QMap<QString, int> &objects);
     int rowCount(const QModelIndex &parent
                  = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent
@@ -41,10 +49,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 private:
-    QMap<QString, int> objects;
-    QSet<QString> ignoredObjects;
-signals:
-    void editCompleted(const QString &);
+    QList<IgnoredObjectsTableModelData> model;
 };
 
 #endif // IGNOREDOBJECTSTABLEMODEL_H

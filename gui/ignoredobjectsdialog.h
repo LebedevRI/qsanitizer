@@ -35,7 +35,7 @@ class IgnoredObjectsDialog : public QDialog
 
 public:
     explicit IgnoredObjectsDialog(QWidget *parent = 0);
-    void SetObjectsMap(const QMap<QString, int> &objects);
+    void setModel(const QMap<QString, int> &objects);
     ~IgnoredObjectsDialog();
 
 private:

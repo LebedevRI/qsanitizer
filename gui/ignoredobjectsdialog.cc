@@ -36,9 +36,9 @@ IgnoredObjectsDialog::IgnoredObjectsDialog(QWidget *parent)
     ui->tableView->sortByColumn(2, Qt::DescendingOrder);
 }
 
-void IgnoredObjectsDialog::SetObjectsMap(const QMap<QString, int> &objects)
+void IgnoredObjectsDialog::setModel(const QMap<QString, int> &objects)
 {
-    tableModel->SetObjectsMap(objects);
+    tableModel->setModel(objects);
 }
 
 IgnoredObjectsDialog::~IgnoredObjectsDialog()

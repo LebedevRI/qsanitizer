@@ -28,16 +28,25 @@ IgnoredObjectsTableModel::IgnoredObjectsTableModel(QObject *parent)
 {
 }
 
-void IgnoredObjectsTableModel::SetObjectsMap(const QMap<QString, int> &objects)
+void IgnoredObjectsTableModel::setModel(const QMap<QString, int> &objects)
 {
     this->beginResetModel();
-    this->objects = objects;
+
+    this->model.clear();
+
+    auto i = objects.constBegin();
+    while (i != objects.constEnd()) {
+        this->model.append(
+            {.object = i.key(), .occurences = i.value(), .ignored = false});
+        ++i;
+    }
+
     this->endResetModel();
 }
 
 int IgnoredObjectsTableModel::rowCount(const QModelIndex & /*parent*/) const
 {
-    return this->objects.size();
+    return this->model.size();
 }
 
 int IgnoredObjectsTableModel::columnCount(const QModelIndex & /*parent*/) const
@@ -48,28 +57,28 @@ int IgnoredObjectsTableModel::columnCount(const QModelIndex & /*parent*/) const
 QVariant IgnoredObjectsTableModel::data(const QModelIndex &index,
                                         int role) const
 {
-    auto row = index.row();
     auto col = index.column();
+    auto row = index.row();
 
     switch (role) {
     case Qt::DisplayRole:
-        if (col == 0)
-            return QString("");
-
-        if (col == 1) {
-            return QString(this->objects.keys().at(row));
+        if (col == 0) {
+            return QVariant();
+        } else if (col == 1) {
+            return this->model[row].object;
+        } else if (col == 2) {
+            return model[row].occurences;
         }
-
-        return this->objects.values().at(row);
         break;
     case Qt::CheckStateRole:
-
         if (col == 0) {
-            if (this->ignoredObjects.contains(this->objects.keys().at(row)))
+            if (model[row].ignored) {
                 return Qt::Checked;
-            else
+            } else {
                 return Qt::Unchecked;
+            }
         }
+        break;
     }
 
     return QVariant();
@@ -86,12 +95,7 @@ bool IgnoredObjectsTableModel::setData(const QModelIndex &index,
         auto row = index.row();
         auto ignored = value.toBool();
 
-        auto object = this->objects.keys().at(row);
-
-        if (ignored)
-            this->ignoredObjects.insert(object);
-        else
-            this->ignoredObjects.remove(object);
+        this->model[row].ignored = ignored;
 
         QModelIndex topLeft = index;
         QModelIndex bottomRight = index;
