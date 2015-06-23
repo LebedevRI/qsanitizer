@@ -16,28 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LEAKLISTMODEL_H
-#define LEAKLISTMODEL_H
+#ifndef LEAKLISTSORTFILTERPROXYMODEL_H
+#define LEAKLISTSORTFILTERPROXYMODEL_H
 
-#include <QAbstractListModel>
-#include <QList>
+#include <QSortFilterProxyModel>
+#include <QString>
+#include <QSet>
 
-#include "leakitem.h"
 #include "leaklist.h"
 
-class LeakListModel : public QAbstractListModel
+class LeakListSortFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
-    LeakListModel(QObject *parent = 0);
+    LeakListSortFilterProxyModel(QObject *parent = 0);
     void setLeakList(LeakList *leakList);
+    void setIgnoredObjects(QSet<QString> *objects);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
+protected:
+    bool
+    filterAcceptsRow(int sourceRow,
+                     const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
 
 private:
     LeakList *leakList;
+    QSet<QString> *ignoredObjects;
 };
 
-#endif // LEAKLISTMODEL_H
+#endif // LEAKLISTSORTFILTERPROXYMODEL_H

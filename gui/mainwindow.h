@@ -26,6 +26,7 @@
 #include "ignoredobjectsdialog.h"
 #include "qsanitizer.h"
 #include "leaklistmodel.h"
+#include "leaklistsortfilterproxymodel.h"
 
 namespace Ui
 {
@@ -57,7 +58,9 @@ private:
     Ui::MainWindow *ui;
     IgnoredObjectsDialog *ignoredObjectsDialog;
     QSanitizer *sanitizer;
+    LeakList leakList;
     LeakListModel *model;
+    LeakListSortFilterProxyModel *filterModel;
     QSortFilterProxyModel *proxyModel;
     QSet<QString> ignoredObjects;
 };

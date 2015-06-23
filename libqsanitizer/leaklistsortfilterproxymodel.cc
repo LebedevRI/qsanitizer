@@ -16,37 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QAbstractListModel>
-#include <QList>
-#include <QStringList>
-
-#include "leaklistmodel.h"
+#include "leaklistsortfilterproxymodel.h"
+#include "leaklist.h"
 #include "leakitem.h"
 
-LeakListModel::LeakListModel(QObject *parent) : QAbstractListModel(parent) {}
+LeakListSortFilterProxyModel::LeakListSortFilterProxyModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
+{
+}
 
-void LeakListModel::setLeakList(LeakList *leakList)
+void LeakListSortFilterProxyModel::setLeakList(LeakList *leakList)
 {
     this->beginResetModel();
     this->leakList = leakList;
     this->endResetModel();
 }
 
-int LeakListModel::rowCount(const QModelIndex &parent) const
+void LeakListSortFilterProxyModel::setIgnoredObjects(QSet<QString> *objects)
 {
-    return leakList->count();
+    this->beginResetModel();
+    this->ignoredObjects = objects;
+    this->endResetModel();
 }
 
-QVariant LeakListModel::data(const QModelIndex &index, int role) const
+bool LeakListSortFilterProxyModel::filterAcceptsRow(
+    int sourceRow, const QModelIndex &sourceParent) const
 {
-    if (!index.isValid())
-        return QVariant();
+    if (this->ignoredObjects->isEmpty())
+        return true;
 
-    if (index.row() >= leakList->size())
-        return QVariant();
+    auto item = this->leakList->at(sourceRow);
+    auto objects = item.getObjectsSet();
 
-    if (role == Qt::DisplayRole)
-        return leakList->at(index.row()).getString();
-    else
-        return QVariant();
+    for (const auto &object : objects) {
+        if (this->ignoredObjects->contains(object))
+            return false;
+    }
+
+    return true;
 }

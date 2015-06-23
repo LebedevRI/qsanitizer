@@ -29,11 +29,13 @@
 
 #include "qsanitizer.h"
 #include "leaklistmodel.h"
+#include "leaklistsortfilterproxymodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
       ignoredObjectsDialog(new IgnoredObjectsDialog(this)),
       sanitizer(new QSanitizer()), model(new LeakListModel(this)),
+      filterModel(new LeakListSortFilterProxyModel(this)),
       proxyModel(new QSortFilterProxyModel(this))
 {
     ui->setupUi(this);
@@ -42,7 +44,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox->addItem(tr("Wildcard"), QRegExp::Wildcard);
     ui->comboBox->addItem(tr("Fixed string"), QRegExp::FixedString);
 
-    proxyModel->setSourceModel(model);
+    this->model->setLeakList(&(this->leakList));
+    this->filterModel->setLeakList(&(this->leakList));
+    this->filterModel->setLeakList(&(this->leakList));
+    this->filterModel->setIgnoredObjects(&(this->ignoredObjects));
+
+    filterModel->setSourceModel(model);
+
+    proxyModel->setSourceModel(filterModel);
     ui->listView->setModel(proxyModel);
 
     connect(ignoredObjectsDialog,
@@ -52,7 +61,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete this->proxyModel;
+    delete this->filterModel;
+    delete this->model;
     delete this->sanitizer;
+    delete this->ignoredObjectsDialog;
     delete ui;
 }
 
@@ -68,12 +81,9 @@ void MainWindow::openLog(const QString &logFile)
 
     this->sanitizer = new QSanitizer(logFile);
 
-    delete this->model;
-
-    this->model = new LeakListModel(sanitizer->getLeaks(), this);
-
-    proxyModel->setSourceModel(model);
-    ui->listView->setModel(proxyModel);
+    this->leakList = this->sanitizer->getLeaks();
+    this->model->setLeakList(&(this->leakList));
+    this->filterModel->setIgnoredObjects(&(this->ignoredObjects));
 }
 
 void MainWindow::on_action_Open_Log_triggered()
@@ -115,4 +125,5 @@ void MainWindow::on_action_Objects_triggered()
 void MainWindow::ignoredObjectsSetChanged(QSet<QString> ignoredObjects)
 {
     this->ignoredObjects = ignoredObjects;
+    this->filterModel->setIgnoredObjects(&(this->ignoredObjects));
 }
