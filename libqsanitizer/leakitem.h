@@ -30,7 +30,6 @@ class LeakItem
 {
 public:
     LeakItem(const QString &string);
-    ~LeakItem();
 
     QString getString() const;
     const LeakDescription &getLeakDescription() const;

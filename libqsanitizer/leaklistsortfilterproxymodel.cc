@@ -25,10 +25,10 @@ LeakListSortFilterProxyModel::LeakListSortFilterProxyModel(QObject *parent)
 {
 }
 
-void LeakListSortFilterProxyModel::setLeakList(LeakList *leakList)
+void LeakListSortFilterProxyModel::setLeakList(LeakList *list)
 {
     this->beginResetModel();
-    this->leakList = leakList;
+    this->leakList = list;
     this->endResetModel();
 }
 

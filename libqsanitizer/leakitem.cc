@@ -36,8 +36,6 @@ LeakItem::LeakItem(const QString &string)
     }
 }
 
-LeakItem::~LeakItem() {}
-
 QString LeakItem::getString() const
 {
     QString Leak = this->description.getString() + "\n";

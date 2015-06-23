@@ -52,7 +52,7 @@ private slots:
     void on_comboBox_currentIndexChanged(int index);
 
     void on_action_Objects_triggered();
-    void ignoredObjectsSetChanged(QSet<QString> ignoredObjects);
+    void ignoredObjectsSetChanged(QSet<QString> objects);
 
 private:
     Ui::MainWindow *ui;

@@ -30,7 +30,6 @@ class LeakList : public QList<LeakItem>
 public:
     LeakList();
     LeakList(const QStringList &strings);
-    ~LeakList();
 
     QMap<QString, int> getObjectsMap() const;
 };

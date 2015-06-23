@@ -25,10 +25,10 @@
 
 LeakListModel::LeakListModel(QObject *parent) : QAbstractListModel(parent) {}
 
-void LeakListModel::setLeakList(LeakList *leakList)
+void LeakListModel::setLeakList(LeakList *list)
 {
     this->beginResetModel();
-    this->leakList = leakList;
+    this->leakList = list;
     this->endResetModel();
 }
 

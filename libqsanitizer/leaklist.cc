@@ -35,8 +35,6 @@ LeakList::LeakList(const QStringList &strings)
     }
 }
 
-LeakList::~LeakList() {}
-
 QMap<QString, int> LeakList::getObjectsMap() const
 {
     QMap<QString, int> objects;

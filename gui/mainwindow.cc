@@ -122,8 +122,8 @@ void MainWindow::on_action_Objects_triggered()
     ignoredObjectsDialog->activateWindow();
 }
 
-void MainWindow::ignoredObjectsSetChanged(QSet<QString> ignoredObjects)
+void MainWindow::ignoredObjectsSetChanged(QSet<QString> objects)
 {
-    this->ignoredObjects = ignoredObjects;
+    this->ignoredObjects = objects;
     this->filterModel->setIgnoredObjects(&(this->ignoredObjects));
 }

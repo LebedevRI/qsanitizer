@@ -24,9 +24,9 @@
 
 LeakDescription::LeakDescription() {}
 
-LeakDescription::LeakDescription(const QString &string)
+LeakDescription::LeakDescription(const QString &input)
 {
-    this->string = string;
+    this->string = input;
 
     QStringList substrings = string.split(" ");
 
@@ -38,8 +38,6 @@ LeakDescription::LeakDescription(const QString &string)
     this->leakSize = substrings.at(3).toULong();
     this->leakCount = substrings.at(6).toULong();
 }
-
-LeakDescription::~LeakDescription() {}
 
 const QString &LeakDescription::getString() const { return this->string; }
 

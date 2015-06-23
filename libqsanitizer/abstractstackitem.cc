@@ -27,8 +27,6 @@ AbstractStackItem::AbstractStackItem()
 {
 }
 
-AbstractStackItem::~AbstractStackItem() {}
-
 const QString &AbstractStackItem::getString() const { return this->string; }
 
 std::size_t AbstractStackItem::getStackItemNum() const { return this->num; }

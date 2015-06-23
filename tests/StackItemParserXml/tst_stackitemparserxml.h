@@ -21,7 +21,7 @@
 
 #include "tst_stackitem.h"
 
-QList<StackItemTestData> StackItemParserXmlTestDataList
+static const QList<StackItemTestData> StackItemParserXmlTestDataList
     = {{.data = "<frame><n>14</n></frame>", .num = 14ul},
        {.data = "<frame><p>0x7fd041ffb018</p></frame>",
         .pointer = quintptr(0x7fd041ffb018)},

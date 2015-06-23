@@ -31,7 +31,7 @@ class LeakListSortFilterProxyModel : public QSortFilterProxyModel
 
 public:
     LeakListSortFilterProxyModel(QObject *parent = 0);
-    void setLeakList(LeakList *leakList);
+    void setLeakList(LeakList *list);
     void setIgnoredObjects(QSet<QString> *objects);
 
 protected:

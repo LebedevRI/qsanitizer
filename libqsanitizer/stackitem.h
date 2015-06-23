@@ -27,7 +27,6 @@ class StackItem : public AbstractStackItem
 {
 public:
     StackItem(const QString &string);
-    ~StackItem();
 };
 
 #endif // STACKITEM_H

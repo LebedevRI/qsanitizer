@@ -25,7 +25,6 @@ class AbstractStackItem
 {
 public:
     AbstractStackItem();
-    ~AbstractStackItem();
 
     const QString &getString() const;
     std::size_t getStackItemNum() const;

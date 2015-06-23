@@ -26,8 +26,7 @@ class LeakDescription
 {
 public:
     LeakDescription();
-    LeakDescription(const QString &string);
-    ~LeakDescription();
+    LeakDescription(const QString &input);
 
     const QString &getString() const;
     bool getLeakType() const;

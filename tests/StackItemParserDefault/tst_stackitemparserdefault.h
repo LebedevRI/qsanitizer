@@ -21,7 +21,7 @@
 
 #include "tst_stackitem.h"
 
-QList<StackItemTestData> StackItemParserDefaultTestDataList
+static const QList<StackItemTestData> StackItemParserDefaultTestDataList
     = {{.data = "#14 0x7f037c02fa91 in dt_gui_preferences_show "
                 "/home/lebedevri/darktable/src/gui/preferences.c:257",
         .num = 14ul,

@@ -31,7 +31,7 @@ class LeakListModel : public QAbstractListModel
 
 public:
     LeakListModel(QObject *parent = 0);
-    void setLeakList(LeakList *leakList);
+    void setLeakList(LeakList *list);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;

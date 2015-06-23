@@ -64,5 +64,3 @@ StackItem::StackItem(const QString &string)
                     .arg(QString::number(this->objectoffset, 16)));
     }
 }
-
-StackItem::~StackItem() {}
