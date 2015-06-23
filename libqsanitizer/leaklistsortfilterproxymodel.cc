@@ -40,7 +40,7 @@ void LeakListSortFilterProxyModel::setIgnoredObjects(QSet<QString> *objects)
 }
 
 bool LeakListSortFilterProxyModel::filterAcceptsRow(
-    int sourceRow, const QModelIndex &sourceParent) const
+    int sourceRow, const QModelIndex & /* sourceParent */) const
 {
     if (this->ignoredObjects->isEmpty())
         return true;

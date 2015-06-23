@@ -108,7 +108,7 @@ void MainWindow::on_lineEdit_textChanged()
     proxyModel->setFilterRegExp(regExp);
 }
 
-void MainWindow::on_comboBox_currentIndexChanged(int index)
+void MainWindow::on_comboBox_currentIndexChanged(int /* index */)
 {
     this->on_lineEdit_textChanged();
 }

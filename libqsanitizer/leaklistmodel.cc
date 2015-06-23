@@ -32,7 +32,7 @@ void LeakListModel::setLeakList(LeakList *leakList)
     this->endResetModel();
 }
 
-int LeakListModel::rowCount(const QModelIndex &parent) const
+int LeakListModel::rowCount(const QModelIndex & /* parent */) const
 {
     return leakList->count();
 }
